@@ -1,0 +1,156 @@
+/* CSS Variables */
+:root {
+/*    --primary-font: "Inter", sans-serif; */
+/*    --secondary-font: "Nova Slim", cursive; */
+
+    --primary-color: #00008b; /* dark blue */
+    --secondary-color: #2F4F4F; /* dark slate gray */
+    --third-color: #f5f5f5; /* whitesmoke */
+    --hover-color: #008080;
+}
+
+
+/* Layout View */
+.navbar-container{
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.navbar, footer {
+    background: var(--primary-color);
+    color: var(--third-color);
+}
+
+.navbar-nav .nav-link {
+    color: var(--third-color);
+  }
+
+.navbar-nav .nav-link.active {
+    color: var(--third-color) !important;
+    text-decoration: underline;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--third-color);
+    text-decoration: underline;
+}
+
+.logo{
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.body-container{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* Products - Index */
+.col-w5 { width: 5%; }
+.col-w10 { width: 10%; }
+.col-w15 { width: 15%; }
+.col-w20 { width: 20%; }
+.col-w25 { width: 25%; }
+.col-w30 { width: 30%; }
+.col-w40 { width: 40%; }
+.col-w50 { width: 50%; }
+
+th > span { color: #0d6efd; } /* Bootstrap primary link color for Actions */
+
+.td-long-text { max-width: 300px; }
+
+.w-16 { width: 16%; }
+
+.remove-item-btn {
+}
+
+#orderGrandTotal { width: 62% !important; }
+/* index.html */
+h1, h2 {
+    color: var(--secondary-color) !important;
+}
+
+.btn-create, .btn-register {
+    color: var(--third-color);
+    background-color: var(--secondary-color);
+    border-width: 0px;
+}
+
+.btn-create:hover,
+.btn-register:hover {
+    color: var(--third-color);
+    background-color: var(--hover-color);
+}
+
+.card-title {
+    color: var(--secondary-color);
+}
+
+.img-event-container {
+    text-align: center;
+    height: 200px;
+}
+
+.img-event {
+    max-height: 100%;
+    max-width: 98%;
+    width: auto;
+}
+
+.btn-next, .btn-previous, .btn-past {
+    color: var(--secondary-color);
+}
+
+.btn-next:hover,
+.btn-previous:hover,
+.btn-past:hover {
+    color: var(--hover-color);
+}
+
+/* login.html, logout.html, signup.html */
+.btn-event {
+    color: var(--third-color);
+    background-color: var(--secondary-color);
+}
+
+.btn-event:hover {
+    color: var(--third-color);
+    background-color: var(--hover-color);
+}
+
+.link {
+    color: var(--secondary-color);
+}
+
+.link:hover {
+    color: var(--hover-color);
+}
+
+/* event_detials.html */
+h4, h6 {
+    color: var(--secondary-color);
+}
+
+.cancel-form, .update-form {
+    margin-top: 1rem;
+}
+
+.name {
+    font-weight:bold;
+}
+
+.note {
+    font-size: 85%;
+    color: #555;
+    font-style: italic;
+}
+
+/* about.html */
+.img-about {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}

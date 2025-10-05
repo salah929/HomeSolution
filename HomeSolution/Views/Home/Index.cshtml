@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="p-3 mb-4 rounded-3">
+    <div class="container">
+        <h1 class="display-5 fw-bold">HomeSolution</h1>
+        <p class="col-lg-8 fs-5">
+            Manage products, suppliers, and customer orders in one place.
+            Create purchase orders to suppliers, track customer orders, and keep your catalog tidy with fast search, filters, and clean workflows.
+        </p>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="container mb-4">
+    <h2 class="h4 mb-3">Why you’ll like it</h2>
+
+    <div class="row g-3">
+        <!-- existing 1 -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="h6 mb-2">Clear data model</h3>
+                    <p class="text-muted mb-0">
+                        Products link to suppliers; orders link to customers—simple, traceable, robust constraints to keep data clean.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- existing 2 -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="h6 mb-2">Fast search & filters</h3>
+                    <p class="text-muted mb-0">
+                        Find what you need with code/name search, date ranges, status filters, and sortable tables.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- existing 3 -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="h6 mb-2">Safe by design</h3>
+                    <p class="text-muted mb-0">
+                        Server-side validation, unique constraints, and guard rails (e.g., product–supplier ownership) prevent bad data.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Services layer -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="h6 mb-2">Services</h3>
+                    <p class="text-muted mb-0">
+                        Business rules live in services (not controllers/repos). They validate inputs, enforce invariants, and translate DB errors into user-friendly messages.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Customer Orders logic -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="h6 mb-2">Customer orders</h3>
+                    <p class="text-muted mb-0">
+                        Validates customers, prevents duplicate items, enforces quantities, and supports filtering by dates/status with clean edit flows.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Supplier Orders logic -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="h6 mb-2">Supplier orders</h3>
+                    <p class="text-muted mb-0">
+                        Ensures each item’s product belongs to the chosen supplier, blocks duplicates, and keeps purchase orders consistent end-to-end.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Browse -->
+@* <div class="container mb-5">
+    <h2 class="h4 mb-3">Browse</h2>
+    <div class="row g-3">
+        <div class="col-sm-6 col-lg-3"><a class="btn btn-outline-secondary w-100" asp-controller="Products" asp-action="Index">Products</a></div>
+        <div class="col-sm-6 col-lg-3"><a class="btn btn-outline-secondary w-100" asp-controller="Suppliers" asp-action="Index">Suppliers</a></div>
+        <div class="col-sm-6 col-lg-3"><a class="btn btn-outline-secondary w-100" asp-controller="Customers" asp-action="Index">Customers</a></div>
+        <div class="col-sm-6 col-lg-3"><a class="btn btn-outline-secondary w-100" asp-controller="CustomerOrders" asp-action="Index">Orders</a></div>
+    </div>
+</div> *@

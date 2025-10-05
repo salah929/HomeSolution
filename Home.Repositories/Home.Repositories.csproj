@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Home.Data\Home.Data.csproj" />
+    <ProjectReference Include="..\Home.Entities\Home.Entities.csproj" />
+    <ProjectReference Include="..\Home.RepositoryContracts\Home.RepositoryContracts.csproj" />
+    <ProjectReference Include="..\Home.Shared\Home.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

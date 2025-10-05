@@ -1,0 +1,80 @@
+﻿@model Home.DTOs.CustomerDto
+@{
+    ViewBag.Title = "Customer Details";
+}
+
+<h2 class="mb-3 text-center fw-bold">Customer Details</h2>
+
+<div class="row">
+    <div class="col-12 col-lg-8 mx-auto">
+        <div class="card mb-3">
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Name</dt>
+                    <dd class="col-sm-8">@Model.Name</dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">@(!string.IsNullOrWhiteSpace(Model.Email) ? Model.Email : "-")</dd>
+
+                    <dt class="col-sm-4">Phone</dt>
+                    <dd class="col-sm-8">@(!string.IsNullOrWhiteSpace(Model.PhoneNumber) ? Model.PhoneNumber : "-")</dd>
+
+                    <dt class="col-sm-4">Address</dt>
+                    <dd class="col-sm-8">@(!string.IsNullOrWhiteSpace(Model.Address) ? Model.Address : "-")</dd>
+
+                    <dt class="col-sm-4">Contact</dt>
+                    <dd class="col-sm-8">@(!string.IsNullOrWhiteSpace(Model.ContactPerson) ? Model.ContactPerson : "-")</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-2 d-flex justify-content-start">
+            <a class="btn btn-outline-primary me-2" asp-action="Edit" asp-route-id="@Model.CustomerId">Edit</a>
+            <a class="btn btn-outline-danger me-2" asp-action="Delete" asp-route-id="@Model.CustomerId">Delete</a>
+            <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+        </div>
+
+        <!-- Orders -->
+        <div class="card mt-3">
+            <div class="card-header fw-bold d-flex justify-content-between align-items-center">
+                @Model.Name - Orders
+                <a class="btn btn-success" asp-controller="CustomerOrders" asp-action="Create"
+                   asp-route-id="@Model.CustomerId" asp-route-c=true>Create Order</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th class="col-w20">Number</th>
+                                <th class="col-w20">Date</th>
+                                <th class="col-w30">Status</th>
+                                <th class="col-w30">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var o in Model.Orders)
+                            {
+                                <tr>
+                                    <td>@o.OrderNumber</td>
+                                    <td>@o.OrderDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@o.OrderStatus</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a class="btn btn-sm btn-outline-secondary flex-fill"
+                                                asp-controller="CustomerOrders" asp-action="Details" asp-route-id="@o.OrderId">Details</a>
+                                            <a class="btn btn-sm btn-outline-primary flex-fill"
+                                                asp-controller="CustomerOrders" asp-action="Edit" asp-route-id="@o.OrderId" asp-route-c=true>Edit</a>
+                                            <a class="btn btn-sm btn-outline-danger flex-fill"
+                                                asp-controller="CustomerOrders" asp-action="Delete" asp-route-id="@o.OrderId">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

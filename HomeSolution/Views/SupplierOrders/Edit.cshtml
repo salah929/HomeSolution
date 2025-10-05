@@ -1,0 +1,162 @@
+﻿@model Home.DTOs.UpdateSupplierOrderDto
+@{
+    ViewBag.Title = "Edit Supplier Order";
+}
+
+<!-- Hidden container for products -->
+<div id="products-data" data-supplierId="@Model.SupplierId" data-allproducts='@Html.Raw(JsonSerializer.Serialize(ViewBag.AllProducts.Items))'></div>
+
+<h2 class="mb-3 text-center fw-bold">Edit Supplier Order</h2>
+
+<div class="row">
+    <div class="col-12 col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="OrderId" />
+
+                    <div class="mb-3 row">
+                        <label asp-for="OrderNumber" class="col-sm-3 col-xl-2 form-label"></label>
+                        <div class="col-sm-9 col-xl-10">
+                            <input asp-for="OrderNumber" class="form-control" />
+                            <span asp-validation-for="OrderNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label asp-for="OrderDate" class="col-sm-3 col-xl-2 form-label"></label>
+                        <div class="col-sm-9 col-xl-10">
+                            <input asp-for="OrderDate" type="date" class="form-control" />
+                            <span asp-validation-for="OrderDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="SupplierId" class="col-sm-3 col-xl-2 form-label">Supplier</label>
+                        <div class="col-sm-9  col-xl-10">
+                            @if (Model.FromSupplier == true)
+                            {
+                                var sId = Model.SupplierId;
+                                var isValid = ViewData.ModelState.IsValid;
+                                var sPage = ViewBag.FromSupplierDetailsPage;
+                                var suppliers = (IEnumerable<SelectListItem>)ViewBag.Suppliers;
+                                var selectedSupplier = suppliers.FirstOrDefault(c => c.Value == Model.SupplierId.ToString())?.Text;
+                                <!-- Visible but disabled -->
+
+                                <select class="form-select" disabled>
+                                    <!-- disabled input does not post back its value -->
+                                    <option selected>@selectedSupplier</option>
+                                </select>
+                                <!-- Hidden input to submit the value -->
+                                <input type="hidden" asp-for="SupplierId" />
+                            }
+                            else
+                            {
+                                <!-- Editable select if CustomerId not preselected -->
+                                <select asp-for="SupplierId" asp-items="ViewBag.Suppliers" class="form-select supplier-select"></select>
+                            }
+                            <span asp-validation-for="SupplierId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label asp-for="OrderStatus" class="col-sm-3 col-xl-2 form-label">Status</label>
+                        <div class="col-sm-9 col-xl-10">
+                            <select asp-for="OrderStatus" class="form-select" asp-items="Html.GetEnumSelectList<SupplierOrderStatus>()"></select>
+                            <span asp-validation-for="OrderStatus" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label asp-for="Notes" class="col-sm-3 col-xl-2 form-label"></label>
+                        <div class="col-sm-9 col-xl-10">
+                            <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header fw-bold d-flex justify-content-between align-items-center">
+                            <span>Items</span>
+                            <button type="button" class="btn btn-outline-secondary w-16 add-item-btn">
+                                Add Item
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class=" row g-2 mb-2 justify-content-between">
+                                <div class="col-md-1">
+                                    <strong>No.</strong>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong>Product</strong>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Quantity</strong>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Unit Price</strong>
+                                </div>
+                                <div class="col-md-2">
+                                    <strong>Line Total</strong>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <strong></strong>
+                                </div>
+                            </div>
+                            <div id="items-container">
+                                @if (Model != null && Model.Items.Count > 0)
+                                {
+                                    @for (var i = 0; i < Model.Items.Count; i++)
+                                    {
+                                        <div class=" row g-2 mb-4 justify-content-between order-item">
+                                            <input type="hidden" name="Items[@i].CustomerOrderItemId" value="@Model.Items[i].ItemId" />
+                                            <div class="col-md-1">
+                                                <input asp-for="Items[@i].ItemNumber" type="number" min="1" class="form-control" disabled />
+                                                <input type="hidden" asp-for="Items[@i].ItemNumber" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select asp-for="Items[@i].ProductId" class="form-select" asp-items="ViewBag.Products"
+                                                        data-selected="@Model.Items[i].ProductId">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input asp-for="Items[@i].Quantity" type="number" min="1" class="form-control quantity-input" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input asp-for="Items[@i].UnitPrice" type="number" min="0" step="0.01" class="form-control unit-price-input" />
+                                            </div>
+                                            <div class="col-md-2 line-total">
+                                                <input class="form-control line-total-input" disabled />
+                                            </div>
+                                            <div class="col-md-2 d-flex align-items-end">
+                                                <button type="button" class="btn btn-outline-danger w-100 remove-item-btn">Remove</button>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-0">
+                        <div class="col-md-8 d-flex justify-content-end align-items-center">
+                            <label class="form-label small mb-1 me-2">Grand Total</label>
+                        </div>
+                        <div class="col-md-3 d-flex justify-content-start align-items-center">
+                            <input id="orderGrandTotal" class="form-control mb-1" disabled />
+                        </div>
+                    </div>
+                    <div class="mt-2 d-flex justify-content-start">
+                        <button type="submit" class="btn btn-primary me-2">Save</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

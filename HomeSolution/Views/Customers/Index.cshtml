@@ -1,0 +1,172 @@
+﻿@model Home.Web.ViewModels.CustomersViewModel
+@{
+    ViewBag.Title = "Customers";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Customers</h2>
+    <a class="btn btn-success" asp-action="Create">Create Customer</a>
+</div>
+
+<!-- Filters -->
+<div class="card mb-3">
+    <div class="card-header fw-bold">Filters</div>
+    <div class="card-body">
+        <form method="get" class="row g-2">
+            <div class="col-sm-4">
+                <label for="searchString" class="form-label small">Search</label>
+                <input id="searchString" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search..." />
+            </div>
+            <div class="col-sm-3">
+                <label for="searchBy" class="form-label small">Search By</label>
+                <select id="searchBy" name="searchBy" class="form-select">
+                    <option value="">All</option>
+                    <option value="name" selected="@(Model.SearchBy == "name")">Name</option>
+                    <option value="email" selected="@(Model.SearchBy == "email")">Email</option>
+                    <option value="phonenumber" selected="@(Model.SearchBy == "phonenumber")">Phone</option>
+                    <option value="address" selected="@(Model.SearchBy == "address")">Address</option>
+                    <option value="contactperson" selected="@(Model.SearchBy == "contactperson")">Contact Person</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <label for="pageSize" class="form-label small">Page Size</label>
+                <select id="pageSize" name="pageSize" class="form-select">
+                    <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                    <option value="20" selected="@(Model.PageSize == 20)">20</option>
+                    <option value="50" selected="@(Model.PageSize == 50)">50</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-3 d-flex align-items-end gap-2">
+                <button class="btn btn-primary flex-fill" type="submit">Apply</button>
+                <a class="btn btn-secondary flex-fill" asp-action="Index">Reset</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Table -->
+<div class="card">
+    <div class="card-header fw-bold">Customers</div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="col-w20">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="name" asp-route-desc="@(Model.SortBy == "name" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize">
+                               Name
+                                @if (Model.SortBy == "name")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                           </a>
+                        </th>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="email" asp-route-desc="@(Model.SortBy == "email" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize">
+                               Email
+                                @if (Model.SortBy == "email")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                           </a>
+                        </th>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="phonenumber" asp-route-desc="@(Model.SortBy == "phonenumber" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize">
+                               Phone
+                                @if (Model.SortBy == "phonenumber")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                           </a>
+                        </th>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="address" asp-route-desc="@(Model.SortBy == "address" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize">
+                               Address
+                                @if (Model.SortBy == "address")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                           </a>
+                        </th>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="contactperson" asp-route-desc="@(Model.SortBy == "contactperson" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize">
+                               Contact Person
+                                @if (Model.SortBy == "contactperson")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                           </a>
+                        </th>
+                        <th class="col-w20">
+                            <span>
+                                Actions
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model.Customers)
+                    {
+                        <tr>
+                            <td>@c.Name</td>
+                            <td>@(string.IsNullOrWhiteSpace(c.Email) ? "-" : c.Email)</td>
+                            <td>@(string.IsNullOrWhiteSpace(c.PhoneNumber) ? "-" : c.PhoneNumber)</td>
+                            <td class="text-truncate td-long-text">@(string.IsNullOrWhiteSpace(c.Address) ? "-" : c.Address)</td>
+                            <td>@(string.IsNullOrWhiteSpace(c.ContactPerson) ? "-" : c.ContactPerson)</td>
+                            <td class="text-end">
+                                <div class="d-flex gap-2">
+                                    <a class="btn btn-sm btn-outline-secondary flex-fill" asp-action="Details" asp-route-id="@c.CustomerId">Details</a>
+                                    <a class="btn btn-sm btn-outline-primary flex-fill" asp-action="Edit" asp-route-id="@c.CustomerId">Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger flex-fill" asp-action="Delete" asp-route-id="@c.CustomerId">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+    <div class="d-flex justify-content-center mt-2">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                       asp-route-sortBy="@Model.SortBy" asp-route-desc="@Model.Desc"
+                       asp-route-page="@(Model.Page - 1)" asp-route-pageSize="@Model.PageSize">Previous</a>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Page @Model.Page of @Model.TotalPages</span>
+                </li>
+                <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                       asp-route-sortBy="@Model.SortBy" asp-route-desc="@Model.Desc"
+                       asp-route-page="@(Model.Page + 1)" asp-route-pageSize="@Model.PageSize">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}

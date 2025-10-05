@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<h2 class="mb-3 text-center fw-bold">About This Project</h2>
+
+<div class="row">
+    <div class="col-12 col-md-8 mx-auto">
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="fs-5">
+                    <strong>HomeSolution</strong> is an ASP.NET Core MVC project I built to practice and demonstrate
+                    how to design and implement a structured business application with clean separation of concerns.
+                </p>
+                <p>
+                    It manages <strong>Products, Suppliers, Customers, and Orders</strong>.
+                    The system enforces rules like product–supplier ownership, prevents duplicate order items,
+                    and provides safe and user-friendly views with validation, search, filters, and pagination.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="h5 fw-bold mb-3">About Me</h3>
+        <div class="card mb-4">
+            <div class="card-body">
+                <p>
+                    Hi, my name is <strong>Salah Alsaleh</strong>.
+                    I have been learning <strong>ASP.NET Core, C#, and web development</strong> and I enjoy
+                    building practical projects that solve real-world business problems.
+                </p>
+                <p>
+                    This project is part of my learning journey, and it also reflects my interest in
+                    <strong>software design, clean architecture, and quality assurance</strong>.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="h5 fw-bold mb-3">Technologies Used</h3>
+        <div class="card mb-4">
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>ASP.NET Core MVC 8.0</li>
+                    <li>Entity Framework Core with SQL Server</li>
+                    <li>Repository & Service layers with DTOs and ViewModels</li>
+                    <li>Bootstrap 5 for styling</li>
+                    <li>DataAnnotations & server-side validation</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-3 d-flex justify-content-start">
+            <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+</div>

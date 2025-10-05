@@ -1,0 +1,55 @@
+public static async Task EnsureSeededAsync(IServiceProvider sp)
+{
+    using var scope = sp.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<HomeDbContext>();
+
+    if (await db.Suppliers.AnyAsync()) return; // already seeded
+
+    // Suppliers
+    var sup1 = new Supplier { SupplierId = Guid.NewGuid(), Name = "Acme Supplies" };
+    var sup2 = new Supplier { SupplierId = Guid.NewGuid(), Name = "Global Trade" };
+    db.Suppliers.AddRange(sup1, sup2);
+
+    // Customers
+    var c1 = new Customer { CustomerId = Guid.NewGuid(), Name = "Alpha Pharma" };
+    var c2 = new Customer { CustomerId = Guid.NewGuid(), Name = "Beta Clinic" };
+    db.Customers.AddRange(c1, c2);
+
+    // Products
+    var p1 = new Product { ProductId = Guid.NewGuid(), Code = "P-100", Name = "Syringe", SupplierId = sup1.SupplierId };
+    var p2 = new Product { ProductId = Guid.NewGuid(), Code = "P-200", Name = "Gloves", SupplierId = sup1.SupplierId };
+    var p3 = new Product { ProductId = Guid.NewGuid(), Code = "P-300", Name = "Mask", SupplierId = sup2.SupplierId };
+    db.Products.AddRange(p1, p2, p3);
+
+    // SupplierOrder + items
+    var so = new SupplierOrder
+    {
+        SupplierOrderId = Guid.NewGuid(),
+        SupplierId = sup1.SupplierId,
+        OrderDate = DateTime.UtcNow,
+        OrderStatus = SupplierOrderStatus.Confirmed,
+        Items = new List<SupplierOrderItem>
+        {
+            new() { SupplierOrderItemId = Guid.NewGuid(), ProductId = p1.ProductId, Quantity = 500 },
+            new() { SupplierOrderItemId = Guid.NewGuid(), ProductId = p2.ProductId, Quantity = 200 }
+        }
+    };
+    db.SupplierOrders.Add(so);
+
+    // CustomerOrder + items
+    var co = new CustomerOrder
+    {
+        CustomerOrderId = Guid.NewGuid(),
+        CustomerId = c1.CustomerId,
+        OrderDate = DateTime.UtcNow,
+        OrderStatus = CustomerOrderStatus.Confirmed,
+        Items = new List<CustomerOrderItem>
+        {
+            new() { CustomerOrderItemId = Guid.NewGuid(), ProductId = p2.ProductId, Quantity = 20 },
+            new() { CustomerOrderItemId = Guid.NewGuid(), ProductId = p3.ProductId, Quantity = 30 }
+        }
+    };
+    db.CustomerOrders.Add(co);
+
+    await db.SaveChangesAsync();
+}

@@ -1,0 +1,204 @@
+﻿@model Home.Web.ViewModels.SupplierOrdersViewModel
+@using Home.Shared.Enums
+@{
+    ViewBag.Title = "Supplier Orders";
+    var fromStr = Model.From?.ToString("yyyy-MM-dd");
+    var toStr = Model.To?.ToString("yyyy-MM-dd");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mt-0 mb-0">Supplier Orders</h2>
+    <a class="btn btn-success" asp-action="Create">Create Order</a>
+</div>
+
+<!-- Filters -->
+<div class="card mb-3">
+    <div class="card-header fw-bold">Filters</div>
+    <div class="card-body">
+        <form method="get" class="row g-2">
+            <div class="col-sm-2">
+                <label asp-for="SearchString" class="form-label small">Search</label>
+                <input asp-for="SearchString" value="@Model.SearchString" class="form-control" placeholder="Search..." />
+            </div>
+            <div class="col-sm-1">
+                <label asp-for="SearchBy" class="form-label small">Search By</label>
+                <select asp-for="SearchBy" class="form-select">
+                    <option value="">All</option>
+                    <option value="ordernumber" selected="@(Model.SearchBy == "ordernumber")">Order Number</option>
+                    <option value="supplier" selected="@(Model.SearchBy == "supplier")">Supplier</option>
+                    <option value="notes" selected="@(Model.SearchBy == "notes")">Notes</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <label asp-for="Status" class="form-label small">Status</label>
+                <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<SupplierOrderStatus>()">
+                    <option value="" selected>All</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <label for="from" class="form-label small">From</label>
+                <input id="from" name="from" type="date" class="form-control" value="@fromStr" />
+            </div>
+            <div class="col-sm-2">
+                <label for="to" class="form-label small">To</label>
+                <input id="to" name="to" class="form-control" type="date" value="@toStr" />
+            </div>
+            <div class="col-sm-1">
+                <label asp-for="PageSize" class="form-label small">Page Size</label>
+                <select asp-for="PageSize" class="form-select">
+                    <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                    <option value="20" selected="@(Model.PageSize == 20)">20</option>
+                    <option value="50" selected="@(Model.PageSize == 50)">50</option>
+                </select>
+            </div>
+            <div class="col-sm-12 col-md-2 d-flex align-items-end gap-2">
+                <button class="btn btn-primary flex-fill" type="submit">Apply</button>
+                <a class="btn btn-secondary flex-fill" asp-action="Index">Reset</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Table -->
+<div class="card">
+    <div class="card-header fw-bold">Orders</div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="ordernumber" asp-route-desc="@(Model.SortBy=="ordernumber" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize"
+                               asp-route-from="@fromStr" asp-route-to="@toStr" asp-route-status="@Model.Status">
+                                Order Number
+                                @if (Model.SortBy == "ordernumber")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                            </a>
+                        </th>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="orderdate" asp-route-desc="@(Model.SortBy=="orderdate" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize"
+                               asp-route-from="@fromStr" asp-route-to="@toStr" asp-route-status="@Model.Status">
+                                Order Date
+                                @if (Model.SortBy == "orderdate")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                            </a>
+                        </th>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="supplier" asp-route-desc="@(Model.SortBy=="supplier" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize"
+                               asp-route-from="@fromStr" asp-route-to="@toStr" asp-route-status="@Model.Status">
+                                Supplier
+                                @if (Model.SortBy == "supplier")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                            </a>
+                        </th>
+                        <th class="col-w15">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="status" asp-route-desc="@(Model.SortBy=="status" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize"
+                               asp-route-from="@fromStr" asp-route-to="@toStr" asp-route-status="@Model.Status">
+                                Status
+                                @if (Model.SortBy == "status")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                            </a>
+                        </th>
+                        <th class="col-w20">
+                            <a asp-action="Index"
+                               asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                               asp-route-sortBy="notes" asp-route-desc="@(Model.SortBy=="notes" ? !Model.Desc : false)"
+                               asp-route-page="@Model.Page" asp-route-pageSize="@Model.PageSize"
+                               asp-route-from="@fromStr" asp-route-to="@toStr" asp-route-status="@Model.Status">
+                                Notes
+                                @if (Model.SortBy == "notes")
+                                {
+                                    <span>@(Model.Desc ? "▼" : "▲")</span>
+                                }
+                            </a>
+                        </th>
+                        <th class="col-w20">
+                            <span>Actions</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var o in Model.SupplierOrders)
+                    {
+                        <tr>
+                            <td>@o.OrderNumber</td>
+                            <td>@o.OrderDate.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(o.SupplierName))
+                                {
+                                    <a asp-controller="Suppliers" asp-action="Details" asp-route-id="@o.SupplierId">
+                                        @o.SupplierName
+                                    </a>
+                                }
+                                else
+                                {
+
+                                    @("-")
+                                }
+                            </td>
+                            <td>@o.OrderStatus</td>
+                            <td class="text-truncate td-long-text">@(string.IsNullOrWhiteSpace(o.Notes) ? "-" : o.Notes)</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a class="btn btn-sm btn-outline-secondary flex-fill" asp-action="Details" asp-route-id="@o.OrderId">Details</a>
+                                    <a class="btn btn-sm btn-outline-primary flex-fill" asp-action="Edit" asp-route-id="@o.OrderId">Edit</a>
+                                    <a class="btn btn-sm btn-outline-danger flex-fill" asp-action="Delete" asp-route-id="@o.OrderId">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+    <div class="d-flex justify-content-center mt-2">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                       asp-route-sortBy="@Model.SortBy" asp-route-desc="@Model.Desc"
+                       asp-route-page="@(Model.Page - 1)" asp-route-pageSize="@Model.PageSize"
+                       asp-route-from="@fromStr" asp-route-to="@toStr" asp-route-status="@Model.Status">Previous</a>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Page @Model.Page of @Model.TotalPages</span>
+                </li>
+                <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-searchString="@Model.SearchString" asp-route-searchBy="@Model.SearchBy"
+                       asp-route-sortBy="@Model.SortBy" asp-route-desc="@Model.Desc"
+                       asp-route-page="@(Model.Page + 1)" asp-route-pageSize="@Model.PageSize"
+                       asp-route-from="@fromStr" asp-route-to="@toStr" asp-route-status="@Model.Status">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}

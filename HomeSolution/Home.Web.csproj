@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Home.Data\Home.Data.csproj" />
+    <ProjectReference Include="..\Home.DTOs\Home.DTOs.csproj" />
+    <ProjectReference Include="..\Home.Repositories\Home.Repositories.csproj" />
+    <ProjectReference Include="..\Home.RepositoryContracts\Home.RepositoryContracts.csproj" />
+    <ProjectReference Include="..\Home.ServiceContracts\Home.ServiceContracts.csproj" />
+    <ProjectReference Include="..\Home.Services\Home.Services.csproj" />
+  </ItemGroup>
+
+</Project>

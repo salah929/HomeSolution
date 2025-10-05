@@ -1,0 +1,56 @@
+﻿@model Home.DTOs.ProductDto
+@{
+    ViewBag.Title = "Delete Product";
+    var existsInCustomerOrders = (ViewBag.ProductExistsInCustomerOrders == true);
+    var existsInSupplierOrders = (ViewBag.ProductExistsInSupplierOrders == true);
+    var existsInOrders = existsInCustomerOrders || existsInSupplierOrders;
+}
+
+<h2 class="mb-3 text-center fw-bold">Delete Product</h2>
+
+<div class="row">
+    <div class="col-12 col-md-6 mx-auto">
+        <div class="alert alert-danger" role="alert">
+            @if (existsInCustomerOrders && existsInSupplierOrders)
+            {
+                @:⚠ Product <strong>@Model.Name</strong> exists in customer and supplier orders and cannot be deleted.
+            }
+            else if (existsInCustomerOrders)
+            {
+                @:⚠ Product <strong>@Model.Name</strong> exists in customer orders and cannot be deleted.
+            }
+            else if (existsInSupplierOrders)
+            {
+                @:⚠ Product <strong>@Model.Name</strong> exists in supplier orders and cannot be deleted.
+            }
+            else
+            {
+                @:Are you sure you want to delete this product? This action cannot be undone.
+            }
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Code</dt>
+                    <dd class="col-sm-9">@Model.Code</dd>
+
+                    <dt class="col-sm-3">Name</dt>
+                    <dd class="col-sm-9">@(!string.IsNullOrWhiteSpace(Model.Name) ? Model.Name : "-")</dd>
+
+                    <dt class="col-sm-3">Description</dt>
+                    <dd class="col-sm-9">@(!string.IsNullOrWhiteSpace(Model.Description) ? Model.Description : "-")</dd>
+
+                    <dt class="col-sm-3">Supplier</dt>
+                    <dd class="col-sm-9">@Model.SupplierName</dd>
+                </dl>
+            </div>
+        </div>
+
+        <form asp-action="Delete" method="post" class="mt-2 d-flex justify-content-start">
+            <input type="hidden" asp-for="ProductId" />
+            <button type="submit" class="btn btn-danger me-2 delete-link" @(existsInOrders == true ? "disabled" : "")>Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
